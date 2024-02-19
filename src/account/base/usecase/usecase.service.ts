@@ -16,6 +16,9 @@ export class UsecaseService implements AccountUseCase {
     getById(id: number): Account {
         return this.accountRepository.getById(id);
     }
+    getAll() {
+      return this.accountRepository.getAll();
+    }
     post(account: Account): Account {
         const existingAccount = this.accountRepository.getById(account.id);
         if (existingAccount) {
@@ -41,3 +44,9 @@ export class UsecaseService implements AccountUseCase {
         return this.accountRepository.delete(id);
     }
 }
+export function transferMoney(from: Account, to: Account, amount: number): Account {
+  from.balance -= amount;
+  to.balance += amount;
+  return from;
+}
+

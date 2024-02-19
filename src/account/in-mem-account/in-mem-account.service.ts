@@ -22,4 +22,7 @@ export class InMemAccountService implements AccountRepository {
         delete this.accounts[id];
         return null;
     }
+    getAll(): Account[] {
+      return Object.values(this.accounts);
+    }
 }
