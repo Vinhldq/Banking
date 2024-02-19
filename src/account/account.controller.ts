@@ -23,7 +23,7 @@ export class AccountController {
         return this.accountInterop.delete('token', id);
     }
     @Get()
-    getAll(@Query() query: Account) {
-
+    getAll() {
+        return this.accountInterop.getAll('token');
     }
 }

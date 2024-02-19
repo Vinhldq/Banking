@@ -1,11 +1,9 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
-import { transferMoney } from "../account/base/usecase/usecase.service";
 
 export interface Account {
   id: number;
   username: string;
   balance: number;
-  transferMoney: (to: Account, amount: number) => Account;
 }
 export interface AccountRepository {
   getById(id: number): Account;

@@ -8,6 +8,7 @@ import {
   existAccount
 } from "../../../domain/account.domain";
 import { InMemAccountService } from "../../in-mem-account/in-mem-account.service";
+import { Transfer } from "../../../domain/transfer.domain";
 
 @Injectable()
 export class UsecaseService implements AccountUseCase {
@@ -43,10 +44,14 @@ export class UsecaseService implements AccountUseCase {
     delete(id: number): Account {
         return this.accountRepository.delete(id);
     }
-}
-export function transferMoney(from: Account, to: Account, amount: number): Account {
-  from.balance -= amount;
-  to.balance += amount;
-  return from;
+  transferBalance(transfer: Transfer): void {
+    const fromAccount = this.accountRepository.getById(transfer.fromAccountId);
+    const toAccount = this.accountRepository.getById(transfer.toAccountId);
+    if (fromAccount.balance < transfer.amount) {
+      throw new Error('Insufficient balance');
+    }
+    this.accountRepository.put({ ...fromAccount, balance: fromAccount.balance - transfer.amount });
+    this.accountRepository.put({ ...toAccount, balance: toAccount.balance + transfer.amount });
+  }
 }
 
