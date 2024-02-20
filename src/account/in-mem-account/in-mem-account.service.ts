@@ -25,4 +25,8 @@ export class InMemAccountService implements AccountRepository {
     getAll(): Account[] {
       return Object.values(this.accounts);
     }
+    transferBalance(transfer: { fromAccountId: number; toAccountId: number; amount: number; }): void {
+      this.accounts[transfer.fromAccountId].balance -= transfer.amount;
+      this.accounts[transfer.toAccountId].balance += transfer.amount;
+    }
 }

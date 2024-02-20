@@ -26,4 +26,8 @@ export class AccountController {
     getAll() {
         return this.accountInterop.getAll('token');
     }
+    @Post('transfer')
+    transferBalance(@Body() transfer: { fromAccountId: number; toAccountId: number; amount: number; }) {
+        return this.accountInterop.transferBalance('token', transfer);
+    }
 }

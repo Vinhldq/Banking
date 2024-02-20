@@ -48,6 +48,7 @@ export class UsecaseService implements AccountUseCase {
     const fromAccount = this.accountRepository.getById(transfer.fromAccountId);
     const toAccount = this.accountRepository.getById(transfer.toAccountId);
     if (fromAccount.balance < transfer.amount) {
+      console.log('Insufficient balance');
       throw new Error('Insufficient balance');
     }
     this.accountRepository.put({ ...fromAccount, balance: fromAccount.balance - transfer.amount });

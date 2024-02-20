@@ -22,8 +22,7 @@ export class InteropService implements AccountInterop {
     getAll(token: string): Account[] {
         return this.accountUseCase.getAll();
     }
-
-    // transferBalance(token: string, transfer: Transfer): void {
-    //   return this.accountUseCase.transferBalance(transfer);
-    // }
+    transferBalance(token: string, transfer: Transfer): void {
+      return this.accountUseCase.transferBalance(transfer);
+    }
 }
