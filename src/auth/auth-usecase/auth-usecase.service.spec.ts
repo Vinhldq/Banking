@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { InMemAccountService } from './in-mem-account.service';
+import { AuthUsecaseService } from './auth-usecase.service';
 
-describe('InMemAccountService', () => {
-  let service: InMemAccountService;
+describe('AuthUsecaseService', () => {
+  let service: AuthUsecaseService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [InMemAccountService],
+      providers: [AuthUsecaseService],
     }).compile();
 
-    service = module.get<InMemAccountService>(InMemAccountService);
+    service = module.get<AuthUsecaseService>(AuthUsecaseService);
   });
 
   it('should be defined', () => {

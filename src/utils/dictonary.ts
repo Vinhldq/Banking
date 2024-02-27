@@ -1,7 +1,7 @@
-export interface DictionaryInt<T> {
-  [index: number]: T;
+export interface DictionaryInt<K> {
+  [index: number]: K;
 }
 
-export interface DictionaryString<T> {
-  [index: string]: T;
+export interface DictionaryString<K> {
+  [index: string]: K;
 }

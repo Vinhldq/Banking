@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
 
 export interface Account {
-  id: number;
+  id: string;
   username: string;
   balance: number;
 }
@@ -11,27 +11,28 @@ export interface Transfer {
   amount: number;
 }
 export interface AccountRepository {
-  getById(id: number): Account;
-  post(account: Account): Account;
-  put(account: Account): Account;
-  delete(id: number): Account;
-  getAll(): Account[];
+  getById(id: string):Promise<FirebaseFirestore.WriteResult>;
+  post(account: Account): Promise<FirebaseFirestore.WriteResult>;
+  put(account: Account): Promise<FirebaseFirestore.WriteResult>;
+  delete(id: string): Promise<FirebaseFirestore.WriteResult>;
+
+  getAll(): Promise<Account[] | FirebaseFirestore.WriteResult[]>;
   transferBalance(transfer: Transfer): void;
 }
 export interface AccountUseCase {
-  getById(id: number): Account;
-  post(account: Account): Account;
-  put(account: Account): Account;
-  delete(id: number): Account;
-  getAll(): Account[];
+  getById(id: string):Promise<FirebaseFirestore.WriteResult>;
+  post(account: Account): Promise<FirebaseFirestore.WriteResult>;
+  put(account: Account): Promise<FirebaseFirestore.WriteResult>;
+  delete(id: string): Promise<FirebaseFirestore.WriteResult>;
+  getAll(): Promise<Account[] | FirebaseFirestore.WriteResult[]>;
   transferBalance(transfer: Transfer): void;
 }
 export interface AccountInterop {
-  getById(token:string,id: number): Account;
-  post(token:string,account: Account): Account;
-  put(token:string,account: Account): Account;
-  delete(token:string,id: number): Account;
-  getAll(token:string): Account[];
+  getById(token:string,id: string):  Promise<FirebaseFirestore.WriteResult>;
+  post(token:string,account: Account): Promise<FirebaseFirestore.WriteResult>;
+  put(token:string,account: Account): Promise<FirebaseFirestore.WriteResult>;
+  delete(token:string,id: string): Promise<FirebaseFirestore.WriteResult>;
+  getAll(token:string): Promise<Account[] | FirebaseFirestore.WriteResult[]>;
   transferBalance(token: string, transfer: Transfer): void;
 }
 
@@ -39,3 +40,7 @@ export const existAccount = new HttpException('Account already exists', HttpStat
 export const balanceMinus = new HttpException('Balance cannot be minus', HttpStatus.BAD_REQUEST)
 export const balanceNumber = new HttpException('Balance must be a number', HttpStatus.BAD_REQUEST)
 
+export const ErrAccountNotFound = new HttpException(
+  'Account not found',
+  HttpStatus.NOT_FOUND,
+);

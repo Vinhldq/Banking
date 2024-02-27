@@ -1,4 +1,3 @@
-import { Account } from "./account.domain";
 
 export interface Transfer {
   fromAccountId: number;

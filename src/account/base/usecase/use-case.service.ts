@@ -7,20 +7,19 @@ import {
   balanceNumber,
   existAccount
 } from "../../../domain/account.domain";
-import { InMemAccountService } from "../../in-mem-account/in-mem-account.service";
 import { Transfer } from "../../../domain/transfer.domain";
 
 @Injectable()
-export class UsecaseService implements AccountUseCase {
+export class UseCaseService implements AccountUseCase {
   constructor(@Inject('AccountRepository') private accountRepository: AccountRepository) {
   }
-    getById(id: number): Account {
+    getById(id: string): Promise<FirebaseFirestore.WriteResult> {
         return this.accountRepository.getById(id);
     }
-    getAll() {
+    getAll() : Promise<Account[] | FirebaseFirestore.WriteResult[]>{
       return this.accountRepository.getAll();
     }
-    post(account: Account): Account {
+    post(account: Account): Promise<FirebaseFirestore.WriteResult> {
         const existingAccount = this.accountRepository.getById(account.id);
         if (existingAccount) {
           console.log('Account already exists');
@@ -38,21 +37,15 @@ export class UsecaseService implements AccountUseCase {
         }
         return this.accountRepository.post(account);
     }
-    put(account: Account): Account {
+    put(account: Account): Promise<FirebaseFirestore.WriteResult> {
         return this.accountRepository.put(account);
     }
-    delete(id: number): Account {
+    delete(id: string): Promise<FirebaseFirestore.WriteResult>  {
         return this.accountRepository.delete(id);
     }
   transferBalance(transfer: Transfer): void {
-    const fromAccount = this.accountRepository.getById(transfer.fromAccountId);
-    const toAccount = this.accountRepository.getById(transfer.toAccountId);
-    if (fromAccount.balance < transfer.amount) {
-      console.log('Insufficient balance');
-      throw new Error('Insufficient balance');
-    }
-    this.accountRepository.put({ ...fromAccount, balance: fromAccount.balance - transfer.amount });
-    this.accountRepository.put({ ...toAccount, balance: toAccount.balance + transfer.amount });
+    this.accountRepository.transferBalance(transfer);
   }
 }
+
 
